@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>차트의 품격 고객센터</title>
-
-<!-- PWA (앱 설치/플레이스토어 패키징용) -->
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#102a43" />
-<link rel="icon" type="image/x-icon" href="favicon.ico" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
-<link rel="apple-touch-icon" href="icon-192.png" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-title" content="차트의 품격" />
+<title>차트의 품격</title>
 
 <!-- 한글 폰트(Pretendard) -->
 <link rel="stylesheet" as="style" crossorigin
   href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<!-- PWA(웹앱) 설정 -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#11225c" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="차트의 품격" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
 
 <style>
   :root{
@@ -126,18 +126,14 @@
     border-top:1px solid var(--line); background:#fff;
     display:flex; align-items:center; gap:10px;
   }
-  .foot .real-input{
-    flex:1; background:#f1f4f9; border:1px solid var(--line); border-radius:22px;
-    padding:11px 16px; color:#1b2733; font-size:14px; font-family:inherit;
-    outline:none;
+  .foot .fake-input{
+    flex:1; background:#f1f4f9; border-radius:22px; padding:11px 16px;
+    color:#9aa7b6; font-size:13.5px;
   }
-  .foot .real-input:focus{ border-color:var(--accent); background:#fff; }
   .foot .send{
     width:40px; height:40px; border-radius:50%; flex:0 0 auto; border:none;
-    background:var(--accent); color:#fff; font-size:17px; cursor:pointer;
-    transition:opacity .15s;
+    background:#dfe6ef; color:#9aa7b6; font-size:17px; cursor:not-allowed;
   }
-  .foot .send:hover{ opacity:.88; }
 
   /* 입력 표시(봇이 입력 중...) */
   .typing{display:flex; gap:4px; padding:13px 16px;}
@@ -156,21 +152,19 @@
 
 <div class="app">
   <div class="head">
-    <div class="logo">CC</div>
+    <div class="logo">📈</div>
     <div>
-      <div class="title">차트의 품격 고객센터</div>
+      <div class="title">차트의 품격</div>
       <div class="status"><span class="dot"></span>자주 묻는 질문 안내봇</div>
     </div>
   </div>
 
   <div class="chat" id="chat"></div>
 
-  <!-- 입력창: 자유 입력 → 키워드 매칭으로 관련 안내 연결 -->
+  <!-- 입력창: 지금은 버튼식이라 비활성 상태입니다. (3단계에서 직접 입력 기능을 켤 자리) -->
   <div class="foot">
-    <input class="real-input" id="userInput" type="text" inputmode="text"
-           placeholder="궁금한 점을 입력하거나 위 버튼을 눌러주세요"
-           autocomplete="off" />
-    <button class="send" id="sendBtn">➤</button>
+    <div class="fake-input">버튼을 눌러 문의 내용을 선택해 주세요</div>
+    <button class="send" disabled>➤</button>
   </div>
 </div>
 
@@ -191,7 +185,7 @@ const FAQ = {
 
   /* ---------- 시작 화면 ---------- */
   home: {
-    msg: "안녕하세요! 차트의 품격 고객센터입니다 😊\n무엇을 도와드릴까요? 아래에서 선택해 주세요.",
+    msg: "안녕하세요! 차트의 품격입니다 😊\n무엇을 도와드릴까요? 아래에서 선택해 주세요.",
     options: [
       { label: "📁  전체 가이드 모음", goto: "guides_all", style: "allguide" },
       { label: "1️⃣  회원가입 · 인증",            goto: "join" },
@@ -419,54 +413,56 @@ const FAQ = {
 
   /* ===== 입금 ===== */
   dep_in: {
-    msg: "어떤 방식으로 입금하실 건가요?\n\n⚠️ 입금 전 반드시 개인정보 입력과 KYC 인증을 완료해 주세요.\n\n⛔ 잔고가 마이너스인 상태에서는 추가 입금·거래를 하지 마세요. 먼저 거래를 중단하고 담당 매니저에게 보정 처리를 요청해 주세요. (자세히 → 아래 '마이너스 잔고 주의사항')",
+    msg: "어떤 방식으로 입금하실 건가요?\n\n⚠️ 입금 전 반드시 개인정보 입력과 KYC 인증을 완료해 주세요.",
     options: [
             { label: "📁  전체 가이드 모음", goto: "guides_all", style: "allguide" },
       { label: "🏦  원화(KRW) 입금",   goto: "dep_krw" },
-      { label: "📄  원화 입금 가이드 PDF", pdf: "krw-deposit.pdf", pdfName: "RS_Finance_원화입금_가이드.pdf" },
       { label: "₮  테더(USDT) 입금",   goto: "dep_usdt" },
       { label: "📄  테더 입금 가이드 PDF", pdf: "usdt-deposit.pdf", pdfName: "RS_Finance_테더입금_가이드.pdf" },
       { label: "ℹ️  입출금 규정 (시간·한도·방식)", goto: "dep_rules" },
-      { label: "⚠️ 마이너스 잔고 시 주의사항 (필독)", goto: "cr_minus" },
       { label: "↩  입출금 메뉴로",  goto: "money", style: "nav" },
       { label: "🏠  처음으로",  goto: "home", style: "nav" },
     ],
   },
   dep_krw: {
-    msg: "[원화(KRW) 입금 · 1] 입금 신청\n\n① 상단 '자금' > '입금' 클릭\n② 입금하실 거래 계좌(MT 계좌) 선택\n③ 결제 채널에서 '가상계좌(RS)2 / VA-KRW' 선택",
-    img: ["krw_deposit_01_select_va.png"],
+    msg: "[원화(KRW) 입금 안내]\n\n원화 입금은 두 가지 가상계좌 채널이 있어요. 아래에서 선택해 주세요.\n\n• 가상계좌 : 1회 $50~$2,000 · 운영 09:00~00:00 (주말 동일)\n• 가상계좌(RS)3 : 1회 $50~$5,000 · 운영 09:00~20:00 (주말 입금 불가)\n\n⚠️ 공통 유의사항\n• 입금 후 이체확인증 첨부는 필수입니다. (누락 시 전달해 주시면 처리 지원)\n• '이름이 일치하지 않습니다' 오류가 뜨면 CS 그룹에 성함 변경을 요청해 주세요.\n• 입금 전 항상 홈페이지에서 신청한 뒤, 확인된 계좌로 이체해 주세요.",
     options: [
-      { label: "다음 ▶  금액 입력",   goto: "dep_krw2", style: "nav" },
-      { label: "↩  입금 메뉴로",      goto: "dep_in", style: "nav" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
+      { label: "🏦  가상계좌 입금", goto: "dep_krw_va" },
+      { label: "🏦  가상계좌(RS)3 입금", goto: "dep_krw_rs3" },
+      { label: "💬  RS 라이브챗 고객센터", goto: "contact" },
+      { label: "↩  입금 메뉴로", goto: "dep_in", style: "nav" },
+      { label: "🏠  처음으로", goto: "home", style: "nav" },
     ],
   },
-  dep_krw2: {
-    msg: "[원화(KRW) 입금 · 2] 금액 입력\n\n④ 입금 금액을 미국 달러(USD)로 선택하거나 입력\n⑤ 통화 유형에서 'KRW' 선택\n⑥ '적용' 클릭 → '동의하고 계속하기' 선택",
-    img: ["krw_deposit_02_amount_apply.png"],
+  dep_krw_va: {
+    msg: "[가상계좌 입금]\n\n💰 입출금 한도: 1회 $50 ~ $2,000 / 1일 한도 2,000만 원\n🕘 운영 시간: 09:00 ~ 00:00 (주말도 평일과 동일)\n\n🧾 입금 후 이체확인증 첨부는 필수입니다.\n⚠️ 입금 전 홈페이지에서 신청한 뒤, 확인된 계좌로 직접 이체해 주세요.",
+    img: ["va_krw_01.png", "va_krw_02.png", "va_krw_03.png", "va_krw_04.png"],
     options: [
-      { label: "다음 ▶  계좌로 이체",  goto: "dep_krw3", style: "nav" },
-      { label: "↩  입금 메뉴로",      goto: "dep_in", style: "nav" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
+      { label: "📖  가상계좌 입금 가이드", url: "https://rs-finance.super.site/deposit/sender" },
+      { label: "💬  RS 라이브챗 고객센터", goto: "contact" },
+      { label: "↩  원화 입금으로", goto: "dep_krw", style: "nav" },
+      { label: "🏠  처음으로", goto: "home", style: "nav" },
     ],
   },
-  dep_krw3: {
-    msg: "[원화(KRW) 입금 · 3] 계좌로 이체\n\n⑦ 화면에 발급된 가상계좌(입금계좌)와 '신청 금액의 원화 환산 금액'이 표시됩니다.\n⑧ 표시된 금액을 그 계좌로 직접 이체하면 완료입니다.\n\n💡 입금은 약 3~5분 내 자동 반영됩니다. 완료 후 화면은 닫으셔도 됩니다.\n\n⚠️ 주의사항\nPSP 입금 계좌는 상시 변동될 수 있습니다.\n입금 전 항상 홈페이지 신청 이후 확인된 계좌번호로 직접 이체해주셔야 입금이 진행됩니다.\n이전 계좌로 오입금된 금액은 반환되지 않습니다.",
-    img: ["krw_deposit_03_transfer_account.png"],
+  dep_krw_rs3: {
+    msg: "[가상계좌(RS)3 입금]\n\n💰 입금 한도: $50 ~ $5,000 (1일 한도·연령 제한 없음)\n🕘 운영 시간: 09:00 ~ 20:00 (KST)\n   · 주말 입금 불가\n   · 운영 시간 이후 입금은 다음 영업일에 처리됩니다.\n\n🧾 입금 후 이체확인증 첨부는 필수입니다. 누락·오류 시 아래 안내를 확인해 주세요.\n⚠️ 입금 전 홈페이지에서 신청한 뒤, 확인된 계좌로 직접 이체해 주세요.",
+    img: ["va_rs3_01.png", "va_rs3_02.png", "va_rs3_03.png", "va_rs3_04.png", "va_rs3_05.png", "va_rs3_06.png", "va_rs3_07.png", "va_rs3_08.png", "va_rs3_09.png", "va_rs3_10.png", "va_rs3_11.png"],
     options: [
-      { label: "⚠️  꼭 알아둘 주의사항 · 한도", goto: "dep_krw_warn" },
-      { label: "📄  원화 입금 가이드 PDF", pdf: "krw-deposit.pdf", pdfName: "RS_Finance_원화입금_가이드.pdf" },
-      { label: "↩  입금 메뉴로",   goto: "dep_in", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
+      { label: "📖  가상계좌(RS)3 입금 가이드", url: "https://rs-finance.super.site/deposit/liqxpay" },
+      { label: "🧾  이체확인증 누락·오류 안내", goto: "dep_receipt" },
+      { label: "💬  RS 라이브챗 고객센터", goto: "contact" },
+      { label: "↩  원화 입금으로", goto: "dep_krw", style: "nav" },
+      { label: "🏠  처음으로", goto: "home", style: "nav" },
     ],
   },
-  dep_krw_warn: {
-    msg: "⚠️ 원화(KRW) 입금 주의사항\n\n• 가상계좌 번호는 신청할 때마다 끝자리 일부가 변경됩니다. 신청 후 '새로 발급된 계좌번호'로 이체해 주세요.\n• 이전(다른) 계좌로 오입금된 금액은 반환이 어려울 수 있습니다.\n\n[입금 한도]\n• 1회 최대 1,000만원 / 1일 최대 2,500만원\n• 입금 실패한 금액도 한도에 포함되며, 한도는 매일(1일 단위) 초기화됩니다.\n\n• 만 60세 이상은 현재 이 채널 이용이 제한됩니다.",
+  dep_receipt: {
+    msg: "[이체확인증 누락 · 오류]\n\n이체확인증 누락 또는 오류로 입금 반영이 안 될 경우, 입금 신청 직후 10분 내외로 도착하는 메일을 확인해 주세요.\n\n📧 보내는 이메일: no-reply@liqx.io\n제목: Your deposit request was approved (재발송 시 Receipt upload is available again)\n\n메일 확인 후 하단의 BACKUP CODE를 복사하고 파란색 버튼을 클릭해 주세요.\n\n아래 이미지 순서대로 진행하시면 됩니다. 어려우시면 RS 라이브챗 고객센터로 문의해 주세요.",
+    img: ["receipt_01.png", "receipt_02.png", "receipt_03.png", "receipt_04.png", "receipt_05.png"],
     options: [
-      { label: "↩  입금 메뉴로",   goto: "dep_in", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
+      { label: "🔗  이체확인증 안내 페이지 열기", url: "https://rs-finance.super.site/deposit/liqxpay/receipt" },
+      { label: "💬  RS 라이브챗 고객센터", goto: "contact" },
+      { label: "↩  가상계좌(RS)3로", goto: "dep_krw_rs3", style: "nav" },
+      { label: "🏠  처음으로", goto: "home", style: "nav" },
     ],
   },
   dep_usdt: {
@@ -565,7 +561,7 @@ const FAQ = {
     ],
   },
   d_withdraw_time: {
-    msg: "출금은 신청 시간에 따라 처리 시간이 달라집니다.\n\n• 평일 오후 6시 이전 신청: 약 3시간 소요\n• 오후 6시 이후 신청: 다음 날 처리\n\n※ 지연될 경우 관리자에게 문의 부탁드립니다.",
+    msg: "원화 출금 안내입니다.\n\n🕘 신청: 24시간 언제든 가능\n⚙️ 처리: 평일 10:30 ~ 17:00\n   · 운영 시간 이후 신청건은 다음 날 처리됩니다.\n\n※ 지연될 경우 관리자에게 문의 부탁드립니다.",
     options: [
       { label: "↩  입출금 규정으로",  goto: "dep_rules", style: "nav" },
       { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
@@ -573,7 +569,7 @@ const FAQ = {
     ],
   },
   d_deposit_time: {
-    msg: "입금은 신청 후 대략 10분 정도 소요됩니다.",
+    msg: "입금은 신청 후 보통 몇 분 내 자동 반영됩니다.\n\n※ 채널별 운영 시간\n• 가상계좌: 09:00~00:00 (주말 동일)\n• 가상계좌(RS)3: 09:00~20:00 (주말 불가, 이후 익영업일 처리)",
     options: [
       { label: "↩  입출금 규정으로",  goto: "dep_rules", style: "nav" },
       { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
@@ -581,7 +577,7 @@ const FAQ = {
     ],
   },
   d_min: {
-    msg: "출금은 $50부터 가능하며, 상한 제한은 없습니다.",
+    msg: "• 출금: 최소 $50부터 가능합니다.\n\n• 원화 입금 1회 한도\n   · 가상계좌: $50 ~ $2,000 (1일 2,000만 원)\n   · 가상계좌(RS)3: $50 ~ $5,000 (1일 한도 없음)\n\n※ 자세한 사항은 고객센터로 문의해 주세요.",
     options: [
       { label: "↩  입출금 규정으로",  goto: "dep_rules", style: "nav" },
       { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
@@ -655,7 +651,8 @@ const FAQ = {
   guides_money: {
     msg: "💰 입 · 출금 가이드입니다.\n원하는 가이드를 누르면 PDF가 열립니다.",
     options: [
-      { label: "📄  원화(KRW) 입금 가이드",                pdf: "krw-deposit.pdf",   pdfName: "RS_Finance_원화입금_가이드.pdf" },
+      { label: "📖  원화 입금 가이드 (가상계좌)",           url: "https://rs-finance.super.site/deposit/sender" },
+      { label: "📖  원화 입금 가이드 (가상계좌 RS3)",         url: "https://rs-finance.super.site/deposit/liqxpay" },
       { label: "📄  테더(USDT) 입금 가이드",               pdf: "usdt-deposit.pdf",  pdfName: "RS_Finance_테더입금_가이드.pdf" },
       { label: "📄  원화(KRW) 출금 가이드",                pdf: "krw-withdraw.pdf",  pdfName: "RS_Finance_원화출금_가이드.pdf" },
       { label: "📄  테더(USDT) 출금 가이드",               pdf: "usdt-withdraw.pdf", pdfName: "RS_Finance_테더출금_가이드.pdf" },
@@ -703,75 +700,6 @@ const FAQ = {
       { label: "🔑  기존 MT5 계좌로 로그인하고 싶어요", goto: "a_existing" },
       { label: "🧪  데모 계좌를 만들고 싶어요",         goto: "demo" },
       { label: "ℹ️  입출금 규정 (시간·한도·방식)", goto: "dep_rules" },
-      { label: "🎁  크레딧(보너스) 안내", goto: "credit" },
-      { label: "💱  테더(USDT)가 뭔가요?", goto: "about_usdt" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-
-  /* ---------- 테더(USDT) 설명 ---------- */
-  about_usdt: {
-    msg: "💱 테더(USDT)란?\n\n테더는 미국 달러(USD)와 1:1로 가치가 연동되도록 설계된 암호화폐(스테이블코인)입니다.\n\n• 1 USDT ≈ 1 USD\n• 가격 변동이 큰 일반 코인과 달리 비교적 안정적이에요.\n• 차트의 품격에서는 입출금 수단 중 하나로 테더를 지원합니다.\n\n테더로 입금하는 방법이 궁금하시면 아래 버튼을 눌러주세요.",
-    options: [
-      { label: "₮  테더(USDT) 입금 방법", goto: "dep_usdt" },
-      { label: "↩  자주 묻는 질문으로",  goto: "faq", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-
-  /* ---------- 크레딧(보너스) 안내 ---------- */
-  credit: {
-    msg: "🎁 크레딧(보너스) 안내입니다.\n궁금하신 항목을 선택해 주세요.",
-    options: [
-      { label: "크레딧은 어떻게 지급되나요?",       goto: "cr_grant" },
-      { label: "크레딧 사용 규정 (마진·청산)",       goto: "cr_use" },
-      { label: "⚠️ 마이너스 잔고 주의사항 (필독)",     goto: "cr_minus" },
-      { label: "크레딧 취소·회수 규정",              goto: "cr_cancel" },
-      { label: "금지 행위 (보너스 남용)",            goto: "cr_abuse" },
-      { label: "↩  자주 묻는 질문으로",  goto: "faq", style: "nav" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-  cr_grant: {
-    msg: "💰 크레딧 지급 절차\n\n① $1,000 이상 입금\n② 입금 후 담당 매니저에게 크레딧 지급을 요청\n③ 입금 확인 후 신청하시면 최대 24시간 이내에 적용 (입금액의 30% 지급)\n\n⚠️ 신청 순서를 꼭 지켜주세요!\n입금 후 거래를 먼저 시작하면 크레딧 지급이 어렵습니다.\n반드시 입금 → (거래 전에) 크레딧 신청 → 그다음 거래 순서로 진행해 주세요.\n\n※ 크레딧은 프로모션 혜택이며, 회사 규정에 따라 지급 여부가 결정됩니다.",
-    options: [
-      { label: "⚠️  마이너스 잔고 주의사항", goto: "cr_minus" },
-      { label: "↩  크레딧 안내로",  goto: "credit", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-  cr_use: {
-    msg: "📊 크레딧 사용 규정\n\n• 크레딧은 마진(증거금)으로 사용할 수 없습니다.\n  (새 거래 체결이나 기존 포지션 유지에 크레딧을 마진으로 쓸 수 없음)\n• 자산(잔고)이 사용 가능한 크레딧과 같아지면, 마이너스 잔고를 막기 위해 거래가 자동 중단·청산됩니다.\n• 잔고를 초과하는 실시간 손실이 발생하면 크레딧은 즉시 제거됩니다.\n• 크레딧은 타인에게 양도하거나 출금할 수 없습니다.\n\n※ 잔고가 음수인 상태에서는 실거래로 인정되지 않으며, 진행 중인 거래가 강제 종료될 수 있고 수익 실현·출금이 불가합니다. 입금 전 반드시 잔고를 조정해 주세요.",
-    options: [
-      { label: "↩  크레딧 안내로",  goto: "credit", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-  cr_minus: {
-    msg: "⚠️ 마이너스 잔고 주의사항 (필독)\n\n[1] 마이너스 잔고 발생 원인\n• 거래 가능한 실제 잔액이 모두 소진되고 크레딧(Credit)만 남은 상태에서 거래를 계속하면, 잔고가 마이너스로 전환될 수 있습니다.\n• 이 경우 정상적인 서비스 이용을 위해 반드시 보정 처리가 필요합니다.\n\n[2] 입금·거래 제한\n⛔ 입금 금지: 잔고가 마이너스인 상태에서는 원칙적으로 추가 입금을 하시면 안 됩니다.\n⛔ 거래 절대 금지: 마이너스 상태에서 이미 입금을 완료하셨더라도, 절대 추가 거래를 하지 마십시오.\n\n[3] 대처 방법\n• 마이너스 상태에서 입금을 진행하셨다면, 즉시 모든 거래를 중단하시고 담당 매니저에게 연락하여 보정 처리를 요청해 주세요.",
-    options: [
-      { label: "↩  크레딧 안내로",  goto: "credit", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-
-  cr_cancel: {
-    msg: "⚠️ 크레딧 취소·회수 규정\n\n• 회사는 사전 통지 없이 언제든지 이 프로모션을 변경·수정·종료할 권리를 가집니다.\n• 보너스 약관 또는 이용약관 위반, 부정행위가 의심되는 경우 크레딧을 취소·회수할 수 있습니다.\n• 보너스 자금으로 실행된 거래 결과의 전부 또는 일부가 취소될 수 있습니다.\n• 회사는 본인 확인을 위해 추가 신분·주소 서류를 요청할 수 있으며, 제공을 거부할 경우 크레딧과 그로 인한 거래 결과가 취소될 수 있습니다.\n\n※ 이 프로모션과 관련한 거래 손실에 대해 회사는 책임을 지지 않으며, 최종 판단 권한은 회사에 있습니다.",
-    options: [
-      { label: "↩  크레딧 안내로",  goto: "credit", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
-      { label: "🏠  처음으로",  goto: "home", style: "nav" },
-    ],
-  },
-  cr_abuse: {
-    msg: "🚫 보너스 남용 금지 행위\n\n보너스만을 노린 다음 행위는 금지되며, 적발 시 보너스가 취소될 수 있습니다.\n\n• 가족·지인 정보로 여러 계정을 만들어 보너스를 받는 행위\n• 동일 IP 다중 로그인, 헤징, 스캘핑, 차익(아비트라지) 거래\n• 대형 거래를 거의 동일 비율의 소규모 거래로 쪼개는 행위\n• 충분한 거래 기록 없이 보너스 이익만 취하려는 행위\n\n※ 이러한 거래가 감지되면 회사는 사전 통지 없이 보너스를 취소할 수 있습니다.",
-    options: [
-      { label: "↩  크레딧 안내로",  goto: "credit", style: "nav" },
-      { label: "🙋  관리자 문의",   goto: "contact", style: "contact" },
       { label: "🏠  처음으로",  goto: "home", style: "nav" },
     ],
   },
@@ -829,7 +757,7 @@ function scrollDown(){ chat.scrollTop = chat.scrollHeight; }
 function addBotBubble(text){
   const row = document.createElement("div");
   row.className = "row bot";
-  row.innerHTML = `<div class="avatar">CC</div><div class="bubble"></div>`;
+  row.innerHTML = `<div class="avatar">📈</div><div class="bubble"></div>`;
   row.querySelector(".bubble").textContent = text;
   chat.appendChild(row);
   scrollDown();
@@ -838,7 +766,7 @@ function addBotBubble(text){
 function addBotImages(imgs){
   const row = document.createElement("div");
   row.className = "row bot";
-  let html = `<div class="avatar">CC</div><div class="bubble imgbubble">`;
+  let html = `<div class="avatar">📈</div><div class="bubble imgbubble">`;
   imgs.forEach(src=>{
     html += `<a href="img/${src}" target="_blank" rel="noopener"><img class="guide-img" src="img/${src}" loading="lazy" alt="안내 이미지"></a>`;
   });
@@ -861,7 +789,7 @@ function showTyping(){
   const row = document.createElement("div");
   row.className = "row bot";
   row.id = "typing";
-  row.innerHTML = `<div class="avatar">CC</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  row.innerHTML = `<div class="avatar">📈</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
   chat.appendChild(row);
   scrollDown();
 }
@@ -931,165 +859,8 @@ function choose(opt){
   goto(opt.goto);
 }
 
-/* ============================================================
-   자유 입력 매칭 엔진 (비용 0원, 규칙 기반)
-   회원이 입력한 말 → 가장 가까운 안내로 연결
-   기법: 정규화 + 동의어 + 초성매칭 + 오타보정(편집거리)
-   ※ 키워드를 늘리려면 아래 INTENTS의 kw 배열에 표현을 추가하세요.
-   ============================================================ */
-const INTENTS = [
-  { goto:"signup",    label:"회원가입 방법",        kw:["회원가입","가입","계정만들기","계정생성","등록","신규가입","가입방법","회원등록"] },
-  { goto:"kyc",       label:"KYC(신원·주소) 인증",   kw:["kyc","신원인증","본인인증","신분증","신원확인","주소인증","인증서류","케이와이씨"] },
-  { goto:"finance",   label:"금융인증(금융정보 등록)", kw:["금융인증","금융정보","금융정보등록","금융정보승인","financial"] },
-  { goto:"mtacct",    label:"MT 계좌 개설",          kw:["계좌개설","엠티계좌","mt계좌","계좌만들기","거래계좌","계좌생성"] },
-  { goto:"mt5",       label:"MT5 설치·사용",         kw:["mt5","엠티5","메타트레이더","metatrader","엠티파이브","mt5설치","프로그램설치","앱설치"] },
-  { goto:"mt5_mobile",label:"모바일 MT5",            kw:["모바일mt5","핸드폰mt5","폰mt5","모바일설치","휴대폰","스마트폰"] },
-  { goto:"mt5_pc",    label:"PC MT5",               kw:["pcmt5","컴퓨터mt5","pc설치","컴퓨터설치","데스크탑","노트북"] },
-  { goto:"dep_in",    label:"입금 방법",             kw:["입금","돈넣기","충전","입금방법","넣기","돈입금"] },
-  { goto:"dep_krw",   label:"원화(KRW) 입금",        kw:["원화입금","krw입금","현금입금","원화로입금","계좌입금","은행입금","무통장","가상계좌"] },
-  { goto:"about_usdt", label:"테더(USDT)란?",      kw:["테더란","테더가뭐","테더뭐야","테더무엇","usdt란","usdt가뭐","usdt뭐야","테더설명","스테이블코인","테더의미","테더뜻"] },
-  { goto:"dep_usdt",  label:"테더(USDT) 입금",       kw:["테더입금","usdt입금","코인입금","암호화폐입금","테더로입금","트론"] },
-  { goto:"dep_out",   label:"출금 방법",             kw:["출금","돈빼기","인출","출금방법","돈찾기","돈출금","빼기","withdraw"] },
-  { goto:"out_krw",   label:"원화(KRW) 출금",        kw:["원화출금","krw출금","현금출금","원화로출금","은행출금","통장출금"] },
-  { goto:"out_usdt",  label:"테더(USDT) 출금",       kw:["테더출금","usdt출금","코인출금","테더로출금","지갑출금"] },
-  { goto:"d_withdraw_time", label:"출금 소요시간",    kw:["출금시간","출금얼마나","출금언제","출금며칠","출금지연","출금안들어와","출금늦어","언제출금","출금처리시간"] },
-  { goto:"d_deposit_time",  label:"입금 소요시간",    kw:["입금시간","입금얼마나","입금언제","입금안들어와","입금반영","입금처리시간"] },
-  { goto:"d_min",     label:"최소 출금 금액",        kw:["최소출금","출금최소","최소금액","출금최소금액"] },
-  { goto:"d_method",  label:"입출금 방식",           kw:["입출금방식","현금테더","같은방식"] },
-  { goto:"dep_rules", label:"입출금 규정",           kw:["입출금규정","규정","규칙","입출금규칙","한도","시간한도"] },
-  { goto:"credit",    label:"크레딧(보너스) 안내",    kw:["크레딧","보너스","credit","bonus","크래딧"] },
-  { goto:"cr_grant",  label:"크레딧 지급 방법",       kw:["크레딧지급","크레딧신청","보너스지급","크레딧받는법","크레딧조건"] },
-  { goto:"cr_minus",  label:"마이너스 잔고 주의사항",  kw:["마이너스","마이너스잔고","잔고마이너스","음수잔고","보정","마이너스보정"] },
-  { goto:"cr_cancel", label:"크레딧 취소·회수",       kw:["크레딧취소","크레딧회수","보너스취소","크레딧사라짐","크레딧없어짐"] },
-  { goto:"cr_abuse",  label:"보너스 남용 금지",       kw:["보너스남용","크레딧남용","금지행위","헤징","스캘핑","차익거래"] },
-  { goto:"demo",      label:"데모 계좌",             kw:["데모","데모계좌","모의계좌","연습계좌","demo"] },
-  { goto:"a_existing",label:"기존 계좌로 로그인",     kw:["기존계좌","로그인","기존로그인","계좌로그인","로그인안돼"] },
-  { goto:"contact",   label:"관리자 문의",           kw:["문의","상담","관리자","매니저","담당자","연락","카톡","카카오","전화","상담원","도와줘"] },
-  { goto:"guides_all",label:"전체 가이드(PDF) 모음",  kw:["가이드","pdf","설명서","매뉴얼","안내서","다운로드"] },
-];
-
-const _CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
-function _chosung(str){
-  let r="";
-  for(const ch of str){
-    const code = ch.charCodeAt(0) - 0xAC00;
-    if(code>=0 && code<=11171) r += _CHO[Math.floor(code/588)];
-    else if(/[ㄱ-ㅎ]/.test(ch)) r += ch;
-  }
-  return r;
-}
-function _norm(s){
-  let t = (s||"").toLowerCase().replace(/[\s!?.,~"'()\[\]{}·…\-_/\\]+/g,"");
-  const tails=["하고싶어요","하고싶어","하고싶은데","하고파","하려고요","하려고","할건데","할려고",
-    "어떻게해요","어떻게해","어케해","어떻해","어케","방법알려줘","알려줘","알려주세요",
-    "해주세요","해줘요","해줘","해주실","할래요","할래","할까요","하나요","되나요","돼요","될까요",
-    "싶어요","싶어","싶은데","고싶어","려고","마려","원해요","원해","좀","주세요","please"];
-  let changed=true;
-  while(changed){ changed=false;
-    for(const tl of tails){ if(t.endsWith(tl)&&t.length>tl.length){ t=t.slice(0,-tl.length); changed=true; } }
-  }
-  t = t.replace(/(은|는|이|가|을|를|에|의|로|으로|랑|이랑|와|과|도|만|요)$/,"");
-  return t;
-}
-function _edit(a,b){
-  const m=a.length,n=b.length; if(!m)return n; if(!n)return m;
-  const dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);
-  for(let j=0;j<=n;j++)dp[0][j]=j;
-  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){
-    const c=a[i-1]===b[j-1]?0:1;
-    dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+c);
-  }
-  return dp[m][n];
-}
-function _match(input){
-  const q=_norm(input);
-  const rawNoSpace=input.replace(/\s/g,"");
-  const qCho=_chosung(rawNoSpace);
-  const isCho=/^[ㄱ-ㅎ]+$/.test(rawNoSpace)&&rawNoSpace.length>=2;
-  if(!q&&!isCho)return [];
-  const scored=[];
-  for(const it of INTENTS){
-    let best=0;
-    for(const kwRaw of it.kw){
-      const kw=_norm(kwRaw); if(!kw)continue;
-      let sc=0;
-      if(q===kw) sc=Math.max(sc,130);
-      else if(q&&(q.includes(kw)||kw.includes(q))){
-        const mn=Math.min(kw.length,q.length);
-        if(mn>=2) sc=Math.max(sc,95+Math.min(mn,8));
-      }
-      if(q&&kw.length>=2&&kw.length<=6&&q.length>=2&&q.length<=7){
-        const d=_edit(q,kw), mx=Math.max(q.length,kw.length);
-        if(d===1&&mx>=2) sc=Math.max(sc,90);
-        else if(d===2&&mx>=4) sc=Math.max(sc,62);
-      }
-      if(isCho){
-        const kc=_chosung(kwRaw);
-        if(kc===qCho) sc=Math.max(sc,110);
-        else if(kc.length>=2&&kc.startsWith(qCho)&&qCho.length>=2) sc=Math.max(sc,80);
-        else if(kc.includes(qCho)&&qCho.length>=3) sc=Math.max(sc,70);
-      }
-      best=Math.max(best,sc);
-    }
-    if(best>0) scored.push({goto:it.goto,label:it.label,score:best});
-  }
-  scored.sort((a,b)=>b.score-a.score);
-  return scored;
-}
-function _resolve(input){
-  const r=_match(input);
-  if(r.length===0) return {type:"none"};
-  const top=r[0], sec=r[1];
-  if(top.score>=95&&(!sec||top.score-sec.score>=20)) return {type:"direct",goto:top.goto};
-  const cands=r.filter(x=>x.score>=60).slice(0,3);
-  if(cands.length===0) return {type:"none"};
-  if(cands.length===1) return {type:"direct",goto:cands[0].goto};
-  return {type:"suggest",candidates:cands};
-}
-
-/* 입력 처리: 회원이 입력 → 봇 응답 */
-function handleUserInput(){
-  const el = document.getElementById("userInput");
-  const text = (el.value||"").trim();
-  if(!text) return;
-  el.value = "";
-  clearOptions();
-  addUserBubble(text);
-
-  const res = _resolve(text);
-  if(res.type==="direct"){
-    goto(res.goto);
-  } else if(res.type==="suggest"){
-    addBotBubble("혹시 이 중에서 찾으시나요? 아래에서 선택해 주세요.");
-    const opts = res.candidates.map(c=>({label:c.label, goto:c.goto}));
-    opts.push({label:"🏠  처음으로", goto:"home", style:"nav"});
-    addOptions(opts);
-  } else {
-    addBotBubble("죄송해요, 정확히 이해하지 못했어요. 😥\n아래 메뉴에서 골라주시거나, '입금' · '출금' · '회원가입' 처럼 짧게 입력해 보세요.");
-    addOptions([
-      { label:"🏠  처음으로(전체 메뉴)", goto:"home" },
-      { label:"🙋  관리자 문의", goto:"contact", style:"contact" },
-    ]);
-  }
-}
-
-/* 입력창 이벤트 연결 */
-(function bindInput(){
-  const el = document.getElementById("userInput");
-  const btn = document.getElementById("sendBtn");
-  if(btn) btn.addEventListener("click", handleUserInput);
-  if(el) el.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); handleUserInput(); } });
-})();
-
 /* 시작 */
 window.addEventListener("load", ()=> goto("home"));
-
-/* PWA: 서비스 워커 등록 (앱 설치/오프라인 지원) */
-if("serviceWorker" in navigator){
-  window.addEventListener("load", ()=>{
-    navigator.serviceWorker.register("sw.js").catch(()=>{});
-  });
-}
 </script>
 </body>
 </html>
